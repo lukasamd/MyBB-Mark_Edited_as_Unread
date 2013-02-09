@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Mark Edited as Unread - changes in files</title>
+    </head>
+    <body>
+    
+<style type="text/css">
+<!--
+body {
+    width: 900px;
+    margin: auto;
+}
+pre {
+    border: 1px solid #888;
+    padding: 10px;
+    overflow: scroll;
+    margin-bottom: 50px;
+}
+h1 {
+    font-family: Arial;
+    border-bottom: 1px solid #000;
+    text-align: center;
+    padding-bottom: 10px;
+}
+h2 {
+    font-family: Arial;
+    border-top: 1px dashed #BBB;
+    border-bottom: 1px dashed #BBB;
+    text-align: center;
+    padding: 5px;
+    margin-top: 70px;
+    margin-bottom: 50px;
+}
+h3 {
+    font-family: Arial;
+    text-transform: uppercase;
+    font-size: 16px;
+}
+
+//-->
+</style>    
+    
+
+<h1>Mark Edited as Unread - changes in files</h1>
+
+
+<h2>jscripts/thread.js</h2>
+
+
+<h3>Find:</h3>
+<pre>
+postData = "value="+encodeURIComponent(message).replace(/\+/g, "%2B");
+</pre>
+
+<h3>Replace to:</h3>
+<pre>
+// START - Mark Edited as Unread
+markEdited_field = document.getElementById('markEdited_reason');
+if (markEdited_field != undefined)
+{
+    markEdited_reason = $(markEdited_field).value;
+    postData = "markEdited_reason="+markEdited_reason+"&value="+encodeURIComponent(message).replace(/\+/g, "%2B");
+}
+else
+{
+    postData = "value="+encodeURIComponent(message).replace(/\+/g, "%2B");
+}
+// END - Mark Edited as Unread
+</pre>    
+    
+    
+    </body>
+</html>
