@@ -106,10 +106,7 @@ class markEdited
      */
     public function __construct()
     {
-        global $mybb, $plugins, $lang;
-
-        // Load lang file
-        $lang->load('markEdited');
+        global $mybb, $plugins;
 
         // Add all hooks
         $plugins->hooks["datahandler_post_validate_post"][10]["markEdited_main"] = array("function" => create_function('', 'global $plugins; $plugins->objects[\'markEdited\']->main();'));
