@@ -54,9 +54,8 @@ function markEdited_info()
         "website" => "http://lukasztkacz.com",
         "author" => 'Lukasz Tkacz',
         "authorsite" => "http://lukasztkacz.com",
-        "version" => "1.9",
-        "guid" => "263e3d8723b0e73697d443b6c2e3009a",
-        "compatibility" => "16*"
+        "version" => "1.0.0",
+        "compatibility" => "18*"
     );
 }
 
@@ -68,8 +67,6 @@ function markEdited_install()
 {
     require_once('markEdited.settings.php');
     markEditedInstaller::install();
-    
-    rebuildsettings();
 }
 
 function markEdited_is_installed()
@@ -83,8 +80,6 @@ function markEdited_uninstall()
 {
     require_once('markEdited.settings.php');
     markEditedInstaller::uninstall();
-    
-    rebuildsettings();
 }
 
 /**
@@ -93,14 +88,10 @@ function markEdited_uninstall()
  */
 function markEdited_activate()
 {
-    require_once('markEdited.tpl.php');
-    markEditedActivator::activate();
 }
 
 function markEdited_deactivate()
 {
-    require_once('markEdited.tpl.php');
-    markEditedActivator::deactivate();
 }
 
 /**
@@ -122,78 +113,7 @@ class markEdited
 
         // Add all hooks
         $plugins->hooks["datahandler_post_validate_post"][10]["markEdited_main"] = array("function" => create_function('', 'global $plugins; $plugins->objects[\'markEdited\']->main();'));
-        if ($mybb->settings['markEditedReasonStatus'])
-        {
-            $plugins->hooks["editpost_action_start"][10]["markEdited_injectPosting"] = array("function" => create_function('', 'global $plugins; $plugins->objects[\'markEdited\']->injectPosting();'));
-
-            if ($mybb->settings['markEditedReasonQuickStatus'])
-            {
-                $plugins->hooks["xmlhttp"][10]["markEdited_injectQuickEdit"] = array("function" => create_function('', 'global $plugins; $plugins->objects[\'markEdited\']->injectQuickEdit();'));
-            }
-            if ($mybb->settings['markEditedReasonPostbitStatus'])
-            {
-                $plugins->hooks["showthread_start"][10]["markEdited_loadLanguage"] = array("function" => create_function('', 'global $plugins; $plugins->objects[\'markEdited\']->loadLanguage();'));
-                $plugins->hooks["postbit"][10]["markEdited_injectShowthread"] = array("function" => create_function('&$arg', 'global $plugins; $plugins->objects[\'markEdited\']->injectShowthread($arg);'));
-            }
-        }
         $plugins->hooks["pre_output_page"][10]["markEdited_pluginThanks"] = array("function" => create_function('&$arg', 'global $plugins; $plugins->objects[\'markEdited\']->pluginThanks($arg);'));
-    }
-
-    /**
-     * Inject template to quick reply form if quick option is enabled
-     */
-    public function injectQuickEdit()
-    {
-        global $lang, $mybb, $markEdited, $templates;
-
-        if ($mybb->input['action'] == "edit_post" && $mybb->input['do'] == "get_post")
-        {
-            $markEditedTplOptions = $this->getReasonsList();
-
-            if ($markEditedTplOptions != '')
-            {
-                eval("\$markEdited .= \"" . $templates->get('markEdited_BodyQuick') . "\";");
-            }
-        }
-    }
-
-    /**
-     * Load plugin language file if needed
-     */
-    public function loadLanguage()
-    {
-        global $lang;
-
-        $lang->load('markEdited');
-    }
-
-    /**
-     * Injrect template to showthread (edit reason on postbit)
-     */
-    public function injectShowthread(&$post)
-    {
-        global $lang, $db, $mybb;
-
-        if (isset($post['editedmsg']) && isset($post['markedit_reason']) && $post['markedit_reason'] != '')
-        {
-            $post['markedit_reason'] = " {$lang->markEditedPostbitInfo} <em>{$post['markedit_reason']}</em>";
-            $post['editedmsg'] = str_replace('<!-- markEdited -->', $post['markedit_reason'], $post['editedmsg']);
-        }
-    }
-
-    /**
-     * Inject template to full reply form
-     */
-    public function injectPosting()
-    {
-        global $lang, $mybb, $markEdited, $templates;
-
-        $markEditedTplOptions = $this->getReasonsList();
-
-        if ($markEditedTplOptions != '')
-        {
-            eval("\$markEdited .= \"" . $templates->get('markEdited_Body') . "\";");
-        }
     }
 
     /**
@@ -250,40 +170,6 @@ class markEdited
                 $mark_available = false;
             }
 
-
-            // Is there edit reason?
-            if ($mybb->settings['markEditedReasonStatus'] && isset($mybb->input['markEdited_reason']))
-            {
-                // Get choosen option
-                $choose = $mybb->input['markEdited_reason'];
-                $choose = explode('|', $choose);
-                $choose = array_map('intval', $choose);
-
-                // Get options 
-                $choose_num = $choose[0];
-                $reasons = explode("\n", $mybb->settings['markEditedReasons']);
-
-                // Is it correct reason?
-                if (isset($reasons[$choose_num]))
-                {
-                    $reason = $reasons[$choose_num];
-                    $reason = explode("|", $reason);
-                    $reason = array_map('trim', $reason);
-
-                    // Is mark option enabled?
-                    if ($mark_available && $reason[1] == 1 && $mybb->settings['markEditedReasonMarkStatus'])
-                    {
-                        $mark_make = true;
-                    }
-
-                    // Is reason display enabled?
-                    if ($mybb->settings['markEditedReasonPostbitStatus'])
-                    {
-                        $posthandler->post_update_data['markedit_reason'] = $db->escape_string($reason[0]);
-                    }
-                }
-            }
-
             // Is there any changes in subject?
             if ($mark_available && !$mark_make && $mybb->settings['markEditedSubjectStatus'] && THIS_SCRIPT != 'xmlhttp.php')
             {
@@ -318,45 +204,6 @@ class markEdited
                 $db->update_query('forums', $update_sql, 'fid = ' . $postData['fid']);
             }
         }
-    }
-
-    /**
-     * Get and parse all reasons list from DB
-     * @return string All reasons list for select list
-     */
-    private function getReasonsList()
-    {
-        global $lang, $mybb;
-
-        // Load plugin lang file
-        $lang->load('markEdited');
-
-        // Counter for edit reasons list
-        $i = 0;
-
-        // Variable for template
-        $markEditedTplOptions = '';
-
-        // Get reasons list
-        $reasons = explode("\n", $mybb->settings['markEditedReasons']);
-
-        foreach ($reasons as $reason)
-        {
-            // Analyse each reason
-            $reason = explode("|", $reason);
-            $reason = array_map('trim', $reason);
-
-            $reason[1] = (int) $reason[1];
-            $reason[1] = $i . '|' . $reason[1];
-
-            // Build reason options
-            $markEditedTplOptions .= '<option value="' . $reason[1];
-            $markEditedTplOptions .= '">' . $reason[0] . '</option>';
-
-            $i++;
-        }
-
-        return $markEditedTplOptions;
     }
 
     /**

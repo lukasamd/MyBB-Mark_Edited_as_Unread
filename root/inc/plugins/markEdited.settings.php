@@ -138,62 +138,7 @@ class markEditedInstaller
         );
         $db->insert_query('settings', $setting);
 
-        $setting = array(
-            'name' => 'markEditedReasonStatus',
-            'title' => $db->escape_string($lang->markEditedReasonStatus),
-            'description' => $db->escape_string($lang->markEditedReasonStatusDesc),
-            'optionscode' => 'onoff',
-            'value' => '1',
-            'disporder' => $disporter++,
-            'gid' => $gid
-        );
-        $db->insert_query('settings', $setting);
-
-        $setting = array(
-            'name' => 'markEditedReasonMarkStatus',
-            'title' => $db->escape_string($lang->markEditedReasonMarkStatus),
-            'description' => $db->escape_string($lang->markEditedReasonMarkStatusDesc),
-            'optionscode' => 'onoff',
-            'value' => '1',
-            'disporder' => $disporter++,
-            'gid' => $gid
-        );
-        $db->insert_query('settings', $setting);
-
-        $setting = array(
-            'name' => 'markEditedReasons',
-            'title' => $db->escape_string($lang->markEditedReasons),
-            'description' => $db->escape_string($lang->markEditedReasonsDesc),
-            'optionscode' => 'textarea',
-            'value' => $lang->markEditedReasonsDefault,
-            'disporder' => $disporter++,
-            'gid' => $gid
-        );
-        $db->insert_query('settings', $setting);
-
-        $setting = array(
-            'name' => 'markEditedReasonQuickStatus',
-            'title' => $db->escape_string($lang->markEditedReasonQuickStatus),
-            'description' => $db->escape_string($lang->markEditedReasonQuickStatusDesc),
-            'optionscode' => 'onoff',
-            'value' => '0',
-            'disporder' => $disporter++,
-            'gid' => $gid
-        );
-        $db->insert_query('settings', $setting);
-
-        $setting = array(
-            'name' => 'markEditedReasonPostbitStatus',
-            'title' => $db->escape_string($lang->markEditedReasonPostbitStatus),
-            'description' => $db->escape_string($lang->markEditedReasonPostbitStatusDesc),
-            'optionscode' => 'onoff',
-            'value' => '1',
-            'disporder' => $disporter++,
-            'gid' => $gid
-        );
-        $db->insert_query('settings', $setting);
-
-        $db->add_column('posts', 'markedit_reason', "VARCHAR(250) NOT NULL DEFAULT ''");
+        rebuild_settings();
     }
 
     public static function uninstall()
@@ -209,10 +154,7 @@ class markEditedInstaller
         }
         $db->delete_query('settinggroups', "gid = '{$gid}'");
         
-        if ($db->field_exists('markedit_reason', 'posts'))
-        {
-            $db->drop_column('posts', 'markedit_reason');  
-        }
+        rebuild_settings();
     }
     
 }

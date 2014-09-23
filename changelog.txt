@@ -1,3 +1,9 @@
+Version 1.0.0
+    * add compatibility with MyBB 1.8
+    * remove edit reason functions      
+
+
+
 Version 1.9
     * change license to LGPL v3
     * change plugin sign in hooks  

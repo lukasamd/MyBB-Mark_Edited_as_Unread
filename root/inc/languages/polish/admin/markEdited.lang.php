@@ -46,20 +46,3 @@ $l['markEditedMaxTimeDesc'] = "Określa w minutach maksymalny odstęp czasowy po
 
 $l['markEditedCheckUser'] = 'Sprawdzanie autora postu';
 $l['markEditedCheckUserDesc'] = 'Jeżeli ustawione na tak, oznaczane będą tylko posty edytowane przez ich autorów (np. gdy robi to moderator, oznaczenia postów nie będą zmieniane).';
-
-$l['markEditedReasonStatus'] = 'Możliwość podania powodu edycji postu';
-$l['markEditedReasonStatusDesc'] = "Określa, czy funkcja podawania powodu edycji postów ma być aktywna.";
-
-$l['markEditedReasonMarkStatus'] = 'Powód edycji oznacza jako nieprzeczytany';
-$l['markEditedReasonMarkStatusDesc'] = "Jeżeli włączone, podanie odpowiedniego powodu edycji oznaczy post jako nieprzeczytany.";
-
-$l['markEditedReasonQuickStatus'] = 'Wybór powodu edycji w szybkiej odpowiedzi';
-$l['markEditedReasonQuickStatusDesc'] = "Jeżeli wybór powodu edycji ma być dostępny w szybkiej odpowiedzi, musisz aktywować tą opcję i zmodyfikować plik javascript zgodnie z instrukcją.";
-
-$l['markEditedReasonPostbitStatus'] = 'Wyświetlaj powód edycji w opisie postu';
-$l['markEditedReasonPostbitStatusDesc'] = "Jeżeli włączone, wybrane przez użytkowników powody edycji będą wyświetlane w opisie postu.";
-
-$l['markEditedReasons'] = 'Lista powodów edycji';
-$l['markEditedReasonsDesc'] = "Lista możliwych powodów edycji w formacie: POWOD|STATUS (STATUS 0 - post nie będzie oznaczany jako nieprzeczytany, STATUS 1 - post będzie oznaczany jako nieprzeczytany).<br />Jedna połączenie powód-status na każdą linię.";
-
-$l['markEditedReasonsDefault'] = "Poprawiona ortografia|0\nNowe informacje|1";

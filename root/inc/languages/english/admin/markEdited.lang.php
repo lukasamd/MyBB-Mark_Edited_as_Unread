@@ -18,7 +18,7 @@
  *
  */ 
 
-$l['markEditedName'] = 'Mark Edited as Unread / Edit Reason';
+$l['markEditedName'] = 'Mark Edited as Unread';
 $l['markEditedDesc'] = 'This plugin marks edited posts as unread by change date, if the post is last in topic.';
 
 $l['markEditedSettingGroupDesc'] = 'Settings for plugin "Mark Edited as Unread"';
@@ -46,20 +46,3 @@ $l['markEditedMaxTimeDesc'] = "Edits to the post or its Subject made later than 
 
 $l['markEditedCheckUser'] = 'Only mark unread posts edited by the original author';
 $l['markEditedCheckUserDesc'] = 'If enabled, the plugin will mark unread only last posts edited by their authors. If disabled, last posts edited by moderators will be marked unread as well.';
-
-$l['markEditedReasonStatus'] = 'Enable post edit reason function';
-$l['markEditedReasonStatusDesc'] = "If enabled, users will be able to choose edit reason.";
-
-$l['markEditedReasonMarkStatus'] = 'Mark unread last posts if user choosed edit reason';
-$l['markEditedReasonMarkStatusDesc'] = "If disabled, posts are not mark as unread instead user choosed edit reason.";
-
-$l['markEditedReasonQuickStatus'] = 'Edit reasons list on quick edit';
-$l['markEditedReasonQuickStatusDesc'] = "You have to enable this option and modify javascript file to view edit reasons list on quick edit.";
-
-$l['markEditedReasonPostbitStatus'] = 'Display edit reason on postbit';
-$l['markEditedReasonPostbitStatusDesc'] = "If enabled, edit reason will be displayed on showthread.";
-
-$l['markEditedReasons'] = 'Post edit reasons';
-$l['markEditedReasonsDesc'] = "List of possible edit reasons: REASON|STATUS (STATUS 0 - will not mark as unread, STATUS 1 - will mark as unread). One reason per line.";
-
-$l['markEditedReasonsDefault'] = "Improve grammar|0\nNew informations|1";
