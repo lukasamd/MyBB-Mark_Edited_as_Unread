@@ -1,3 +1,9 @@
+Version 1.0.1
+    * add mark thread read for author after edit (fix #1) 
+    * remove unnecessary variable
+
+
+
 Version 1.0.0
     * add compatibility with MyBB 1.8
     * remove edit reason functions      

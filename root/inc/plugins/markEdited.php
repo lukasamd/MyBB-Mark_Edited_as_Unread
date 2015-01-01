@@ -54,7 +54,7 @@ function markEdited_info()
         "website" => "http://lukasztkacz.com",
         "author" => 'Lukasz Tkacz',
         "authorsite" => "http://lukasztkacz.com",
-        "version" => "1.0.0",
+        "version" => "1.0.1",
         "compatibility" => "18*"
     );
 }
@@ -145,12 +145,11 @@ class markEdited
 
             // Variables for mark and possible mark
             $mark_make = false;
-            $mark_available = true;
 
             // Is it last post?
             if ($postData['dateline'] != $postData['lastpost'])
             {
-                $mark_available = false;
+                return;
             }
 
             // Is it good time to mark unread?
@@ -158,17 +157,17 @@ class markEdited
             if ($time_interval < ($mybb->settings['markEditedMinTime'] * 60) ||
                     ($mybb->settings['markEditedMaxTime'] > 0 && $time_interval > ($mybb->settings['markEditedMaxTime'] * 60)))
             {
-                $mark_available = false;
+                return;
             }
 
             // Is it your post or you can mark unread?
             if ($mybb->settings['markEditedCheckUser'] && ($postData['uid'] != $mybb->user['uid']))
             {
-                $mark_available = false;
+                return;
             }
 
             // Is there any changes in subject?
-            if ($mark_available && !$mark_make && $mybb->settings['markEditedSubjectStatus'] && THIS_SCRIPT != 'xmlhttp.php')
+            if (!$mark_make && $mybb->settings['markEditedSubjectStatus'] && THIS_SCRIPT != 'xmlhttp.php')
             {
                 $similarValue = $this->calculateSimilarity($postData['subject'], $posthandler->data['subject']);
 
@@ -179,7 +178,7 @@ class markEdited
             }
 
             // Are there no changes in subject? Maybe are there changes in message?
-            if ($mark_available && !$mark_make && $mybb->settings['markEditedMessageStatus'])
+            if (!$mark_make && $mybb->settings['markEditedMessageStatus'])
             {
                 $similarValue = $this->calculateSimilarity($postData['message'], $posthandler->data['message']);
 
@@ -190,7 +189,7 @@ class markEdited
             }
 
             // Are there any changes? Ok, let's do it
-            if ($mark_available && $mark_make)
+            if ($mark_make)
             {
                 $posthandler->post_update_data['dateline'] = TIME_NOW;
 
@@ -199,6 +198,9 @@ class markEdited
 
                 $update_sql = array('lastpost' => TIME_NOW);
                 $db->update_query('forums', $update_sql, 'fid = ' . $postData['fid']);
+                
+                // Mark thread read for author
+                mark_thread_read($postData['tid'], $postData['fid']);
             }
         }
     }
