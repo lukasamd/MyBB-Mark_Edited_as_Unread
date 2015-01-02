@@ -200,6 +200,7 @@ class markEdited
                 $db->update_query('forums', $update_sql, 'fid = ' . $postData['fid']);
                 
                 // Mark thread read for author
+                require_once MYBB_ROOT."inc/functions_indicators.php";
                 mark_thread_read($postData['tid'], $postData['fid']);
             }
         }
