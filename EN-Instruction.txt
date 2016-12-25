@@ -34,5 +34,3 @@ INSTALLATION:
 3. Go to ACP -> Plugins and activate "Mark Edited as Unread" plugin
 
 4. Go to ACP -> Settings -> "Mark Edited as Unread" and configure plugin
-
-4. Optionally, edit files for full functionality - changes in "contrib" directory

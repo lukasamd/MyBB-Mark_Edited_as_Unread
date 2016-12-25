@@ -51,10 +51,10 @@ function markEdited_info()
     return Array(
         "name" => $lang->markEditedName,
         "description" => $lang->markEditedDesc,
-        "website" => "http://lukasztkacz.com",
+        "website" => "https://tkacz.pro",
         "author" => 'Lukasz Tkacz',
-        "authorsite" => "http://lukasztkacz.com",
-        "version" => "1.0.1",
+        "authorsite" => "https://tkacz.pro",
+        "version" => "1.8",
         "compatibility" => "18*"
     );
 }
@@ -265,7 +265,7 @@ class markEdited
         
         if (!isset($lukasamd_thanks) && $session->is_spider)
         {
-            $thx = '<div style="margin:auto; text-align:center;">This forum uses <a href="http://lukasztkacz.com">Lukasz Tkacz</a> MyBB addons.</div></body>';
+            $thx = '<div style="margin:auto; text-align:center;">This forum uses <a href="https://tkacz.pro">Lukasz Tkacz</a> MyBB addons.</div></body>';
             $content = str_replace('</body>', $thx, $content);
             $lukasamd_thanks = true;
         }

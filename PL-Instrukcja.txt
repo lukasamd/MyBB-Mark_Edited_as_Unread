@@ -34,5 +34,3 @@ INSTALACJA:
 3. Wejdź do Panelu Administracyjnego -> Pluginy i zainstaluj "Edytowane - nieprzeczytane"
 
 4. Wejdź do Panelu Administracyjnego -> Ustawienia -> "Edytowane - nieprzeczytane" i skonfiguruj plugin
-
-5. Opcjonalnie edytować pliki dla pełnej funkcjonalności - instrukcja zawarta w katalogu "contrib"

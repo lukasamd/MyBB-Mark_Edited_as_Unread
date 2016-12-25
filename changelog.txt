@@ -1,3 +1,9 @@
+Version 1.8
+    * Fix author info
+    * Remove contrib data
+
+
+
 Version 1.0.1
     * add mark thread read for author after edit (fix #1) 
     * remove unnecessary variable
